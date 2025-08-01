@@ -1,5 +1,6 @@
-import { Code, FileText, Coins, Settings, User } from 'lucide-react';
+import { Code, FileText, Coins, Settings, User, Rocket } from 'lucide-react';
 import { AgentType, ChatHistory } from './Framew0rkApp';
+import { useNavigate } from 'react-router-dom';
 
 interface LeftPanelProps {
   selectedAgent: AgentType;
@@ -8,6 +9,8 @@ interface LeftPanelProps {
 }
 
 export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftPanelProps) => {
+  const navigate = useNavigate();
+  
   const agents = [
     {
       id: 'dev' as AgentType,
@@ -93,6 +96,29 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
             </button>
           );
         })}
+      </div>
+
+      {/* Token Launch */}
+      <div className="px-6 pb-4">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+          Token Launch
+        </h2>
+        <button
+          onClick={() => navigate('/bonding-curve')}
+          className="w-full p-4 rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 text-left group glow-border"
+        >
+          <div className="flex items-start space-x-3">
+            <div className="p-2 rounded-lg bg-primary text-white group-hover:scale-110 transition-transform">
+              <Rocket size={18} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm text-primary">Bonding Curve</h3>
+              <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                Launch your token and raise funds
+              </p>
+            </div>
+          </div>
+        </button>
       </div>
 
       {/* Chat History */}
