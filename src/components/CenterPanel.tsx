@@ -42,7 +42,21 @@ export const CenterPanel = ({
     }
   };
 
+  const getAgentGradient = () => {
+    switch (selectedAgent) {
+      case 'dev':
+        return 'from-primary/60 via-primary/30 to-primary/60';
+      case 'whitepaper':
+        return 'from-blue-500/60 via-blue-400/30 to-blue-500/60';
+      case 'tokenomics':
+        return 'from-yellow-500/60 via-yellow-400/30 to-yellow-500/60';
+      default:
+        return 'from-primary/60 via-primary/30 to-primary/60';
+    }
+  };
+
   const { Icon: AgentIcon, color: agentColor } = getAgentIcon();
+  const gradientClass = getAgentGradient();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -238,33 +252,38 @@ export const CenterPanel = ({
       </div>
 
       {/* Input */}
-      <div className="border-t border-border p-6">
-        <form onSubmit={handleSubmit} className="flex items-center space-x-4">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-card border border-border">
-            <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
-          </div>
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder={`Ask ${agentInfo.name} to help build your Web3 project...`}
-              className="w-full p-4 bg-input border border-border rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-              disabled={isGenerating}
-            />
-          </div>
-          <Button
-            type="submit"
-            disabled={!inputValue.trim() || isGenerating}
-            className="px-6 gradient-primary font-semibold"
-          >
-            {isGenerating ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <Send size={18} />
-            )}
-          </Button>
-        </form>
+      <div className="border-t border-border p-6 relative">
+        {/* Animated gradient border */}
+        <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass} rounded-t-none opacity-50 blur-sm animate-pulse`}></div>
+        <div className={`absolute inset-[1px] bg-gradient-to-r ${gradientClass} rounded-t-none opacity-30 animate-pulse`} style={{animationDelay: '0.5s'}}></div>
+        <div className="relative z-10">
+          <form onSubmit={handleSubmit} className="flex items-center space-x-4">
+            <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-card border-2 border-gradient-to-r ${gradientClass.replace(/\/\d+/g, '/80')} shadow-lg`}>
+              <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
+            </div>
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder={`Ask ${agentInfo.name} to help build your Web3 project...`}
+                className={`w-full p-4 bg-input border-2 border-transparent bg-gradient-to-r ${gradientClass.replace(/\/\d+/g, '/20')} rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-lg`}
+                disabled={isGenerating}
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={!inputValue.trim() || isGenerating}
+              className={`px-6 bg-gradient-to-r ${gradientClass.replace(/\/\d+/g, '')} font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
+            >
+              {isGenerating ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Send size={18} />
+              )}
+            </Button>
+          </form>
+        </div>
       </div>
 
       <TopUpModal
