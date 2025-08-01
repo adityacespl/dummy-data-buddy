@@ -1,4 +1,4 @@
-import { Code, FileText, Coins, Settings, User, Rocket } from 'lucide-react';
+import { Settings, User, Rocket } from 'lucide-react';
 import { AgentType, ChatHistory } from './Framew0rkApp';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,21 +16,21 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
       id: 'dev' as AgentType,
       name: 'Dev Agent',
       description: 'AI-Guided App Development',
-      icon: Code,
+      emoji: '🤖',
       color: 'text-primary'
     },
     {
       id: 'whitepaper' as AgentType,
       name: 'Whitepaper Agent',
       description: 'Professional Documentation',
-      icon: FileText,
+      emoji: '📄',
       color: 'text-blue-400'
     },
     {
       id: 'tokenomics' as AgentType,
       name: 'Tokenomics Agent',
       description: 'Token Economics Design',
-      icon: Coins,
+      emoji: '💰',
       color: 'text-yellow-400'
     }
   ];
@@ -64,7 +64,6 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
           AI Agents
         </h2>
         {agents.map((agent) => {
-          const Icon = agent.icon;
           return (
             <button
               key={agent.id}
@@ -76,10 +75,8 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
               }`}
             >
               <div className="flex items-start space-x-3">
-                <div className={`p-2 rounded-lg bg-card ${
-                  selectedAgent === agent.id ? 'text-primary' : agent.color
-                }`}>
-                  <Icon size={20} />
+                <div className={`p-2 rounded-lg bg-card flex items-center justify-center`}>
+                  <span className="text-2xl">{agent.emoji}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-sm">{agent.name}</h3>
@@ -103,8 +100,8 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
           className="w-full p-4 rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 text-left group glow-border"
         >
           <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-lg bg-primary text-white group-hover:scale-110 transition-transform">
-              <Rocket size={18} />
+            <div className="p-2 rounded-lg bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span className="text-2xl">🚀</span>
             </div>
             <div>
               <h3 className="font-semibold text-sm text-primary">Bonding Curve</h3>
@@ -147,14 +144,14 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
       <div className="p-6 border-t border-border">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
-            <User size={18} className="text-white" />
+            <span className="text-xl">👤</span>
           </div>
           <div className="flex-1">
             <p className="font-medium text-sm">Developer</p>
             <p className="text-xs text-muted-foreground">Free Tier</p>
           </div>
           <button className="p-2 hover:bg-accent rounded-lg transition-colors">
-            <Settings size={16} className="text-muted-foreground" />
+            <span className="text-lg">⚙️</span>
           </button>
         </div>
       </div>

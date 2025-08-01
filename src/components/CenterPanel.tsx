@@ -87,7 +87,7 @@ export const CenterPanel = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col h-full">
       {/* Header */}
       <div className="h-16 border-b border-border panel-bg px-6 flex items-center justify-between">
         <div className="flex items-center space-x-3">
