@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Zap, Code, User, Bot, Copy, ExternalLink } from 'lucide-react';
 import { AgentType, ChatMessage } from './Framew0rkApp';
 import { Button } from '@/components/ui/button';
+import { TopUpModal } from './TopUpModal';
 
 interface CenterPanelProps {
   selectedAgent: AgentType;
@@ -11,6 +12,7 @@ interface CenterPanelProps {
   onSendMessage: (message: string) => void;
   onShowDeploy: () => void;
   hasGeneratedCode: boolean;
+  onTopUp: (amount: number) => void;
 }
 
 export const CenterPanel = ({
@@ -20,9 +22,11 @@ export const CenterPanel = ({
   seiBalance,
   onSendMessage,
   onShowDeploy,
-  hasGeneratedCode
+  hasGeneratedCode,
+  onTopUp
 }: CenterPanelProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [showTopUpModal, setShowTopUpModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -78,7 +82,12 @@ export const CenterPanel = ({
               </div>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="glow-border">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="glow-border"
+            onClick={() => setShowTopUpModal(true)}
+          >
             Top Up
           </Button>
         </div>
@@ -227,6 +236,13 @@ export const CenterPanel = ({
           </Button>
         </form>
       </div>
+
+      <TopUpModal
+        isOpen={showTopUpModal}
+        onClose={() => setShowTopUpModal(false)}
+        onTopUp={onTopUp}
+        currentBalance={seiBalance}
+      />
     </div>
   );
 };

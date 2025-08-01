@@ -38,7 +38,7 @@ export const Framew0rkApp = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [showDeploy, setShowDeploy] = useState(false);
   const [generatedCode, setGeneratedCode] = useState<string>('');
-  const [seiBalance] = useState(847);
+  const [seiBalance, setSeiBalance] = useState(847);
   const [chatHistories] = useState<ChatHistory[]>([
     {
       id: '1',
@@ -166,6 +166,10 @@ export const Framew0rkApp = () => {
     handleSendMessage(message);
   };
 
+  const handleTopUp = (amount: number) => {
+    setSeiBalance(prev => prev + amount);
+  };
+
   const generateAIResponse = (userInput: string, agent: AgentType): string => {
     const responses = {
       dev: [
@@ -267,6 +271,7 @@ contract MemecoinLauncher is ERC20, Ownable {
         onSendMessage={handleSendMessage}
         onShowDeploy={() => setShowDeploy(true)}
         hasGeneratedCode={!!generatedCode}
+        onTopUp={handleTopUp}
       />
       
       <RightPanel
