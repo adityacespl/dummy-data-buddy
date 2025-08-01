@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Code, FileText, Coins, MessageCircle, Users, Clock, Settings, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { LeftPanel } from './LeftPanel';
 import { CenterPanel } from './CenterPanel';
 import { RightPanel } from './RightPanel';
-import { PreviewModal } from './PreviewModal';
+import { PreviewPanel } from './PreviewPanel';
 import { DeployModal } from './DeployModal';
 
 export type AgentType = 'dev' | 'whitepaper' | 'tokenomics';
@@ -196,6 +195,118 @@ export const Framew0rkApp = () => {
   };
 
   const generateMockCode = (userInput: string): string => {
+    if (userInput.toLowerCase().includes('prediction') || userInput.toLowerCase().includes('gta')) {
+      return `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract PredictionMarket is ReentrancyGuard, Ownable {
+    struct Market {
+        uint256 id;
+        string question;
+        uint256 endTime;
+        uint256 totalYesAmount;
+        uint256 totalNoAmount;
+        bool resolved;
+        bool outcome;
+        mapping(address => uint256) yesBets;
+        mapping(address => uint256) noBets;
+    }
+    
+    mapping(uint256 => Market) public markets;
+    uint256 public marketCount;
+    uint256 public constant FEE_PERCENTAGE = 3; // 3% platform fee
+    
+    event MarketCreated(uint256 indexed marketId, string question, uint256 endTime);
+    event BetPlaced(uint256 indexed marketId, address indexed user, bool prediction, uint256 amount);
+    event MarketResolved(uint256 indexed marketId, bool outcome);
+    event WinningsWithdrawn(uint256 indexed marketId, address indexed user, uint256 amount);
+    
+    function createMarket(string memory _question, uint256 _endTime) external onlyOwner {
+        require(_endTime > block.timestamp, "End time must be in future");
+        
+        marketCount++;
+        Market storage newMarket = markets[marketCount];
+        newMarket.id = marketCount;
+        newMarket.question = _question;
+        newMarket.endTime = _endTime;
+        
+        emit MarketCreated(marketCount, _question, _endTime);
+    }
+    
+    function placeBet(uint256 _marketId, bool _prediction) external payable nonReentrant {
+        Market storage market = markets[_marketId];
+        require(market.endTime > block.timestamp, "Market has ended");
+        require(!market.resolved, "Market already resolved");
+        require(msg.value > 0, "Bet amount must be greater than 0");
+        
+        if (_prediction) {
+            market.yesBets[msg.sender] += msg.value;
+            market.totalYesAmount += msg.value;
+        } else {
+            market.noBets[msg.sender] += msg.value;
+            market.totalNoAmount += msg.value;
+        }
+        
+        emit BetPlaced(_marketId, msg.sender, _prediction, msg.value);
+    }
+    
+    function resolveMarket(uint256 _marketId, bool _outcome) external onlyOwner {
+        Market storage market = markets[_marketId];
+        require(market.endTime <= block.timestamp, "Market has not ended");
+        require(!market.resolved, "Market already resolved");
+        
+        market.resolved = true;
+        market.outcome = _outcome;
+        
+        emit MarketResolved(_marketId, _outcome);
+    }
+    
+    function withdrawWinnings(uint256 _marketId) external nonReentrant {
+        Market storage market = markets[_marketId];
+        require(market.resolved, "Market not resolved");
+        
+        uint256 winnings = calculateWinnings(_marketId, msg.sender);
+        require(winnings > 0, "No winnings to withdraw");
+        
+        if (market.outcome) {
+            market.yesBets[msg.sender] = 0;
+        } else {
+            market.noBets[msg.sender] = 0;
+        }
+        
+        payable(msg.sender).transfer(winnings);
+        emit WinningsWithdrawn(_marketId, msg.sender, winnings);
+    }
+    
+    function calculateWinnings(uint256 _marketId, address _user) public view returns (uint256) {
+        Market storage market = markets[_marketId];
+        if (!market.resolved) return 0;
+        
+        uint256 totalPool = market.totalYesAmount + market.totalNoAmount;
+        uint256 userBet;
+        uint256 winningPool;
+        
+        if (market.outcome) {
+            userBet = market.yesBets[_user];
+            winningPool = market.totalYesAmount;
+        } else {
+            userBet = market.noBets[_user];
+            winningPool = market.totalNoAmount;
+        }
+        
+        if (userBet == 0 || winningPool == 0) return 0;
+        
+        uint256 grossWinnings = (userBet * totalPool) / winningPool;
+        uint256 fee = (grossWinnings * FEE_PERCENTAGE) / 100;
+        
+        return grossWinnings - fee;
+    }
+}`;
+    }
+    
     if (userInput.toLowerCase().includes('memecoin') || userInput.toLowerCase().includes('token')) {
       return `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
@@ -266,28 +377,35 @@ contract MemecoinLauncher is ERC20, Ownable {
         chatHistories={chatHistories}
       />
       
-      <CenterPanel
-        selectedAgent={selectedAgent}
-        messages={messages}
-        isGenerating={isGenerating}
-        seiBalance={seiBalance}
-        onSendMessage={handleSendMessage}
-        onShowDeploy={() => setShowDeploy(true)}
-        hasGeneratedCode={!!generatedCode}
-        onTopUp={handleTopUp}
-      />
+      <div className={`flex flex-1 transition-all duration-500 ease-in-out ${showPreview ? '' : ''}`}>
+        <div className={`transition-all duration-500 ease-in-out ${showPreview ? 'w-1/2' : 'flex-1'}`}>
+          <CenterPanel
+            selectedAgent={selectedAgent}
+            messages={messages}
+            isGenerating={isGenerating}
+            seiBalance={seiBalance}
+            onSendMessage={handleSendMessage}
+            onShowDeploy={() => setShowDeploy(true)}
+            hasGeneratedCode={!!generatedCode}
+            onTopUp={handleTopUp}
+          />
+        </div>
+        
+        {showPreview && (
+          <PreviewPanel
+            isVisible={showPreview}
+            projectType={messages[messages.length - 2]?.content || 'Web3 App'}
+            generatedCode={generatedCode}
+            onDeploy={() => setShowDeploy(true)}
+            onClose={() => setShowPreview(false)}
+          />
+        )}
+      </div>
       
-      <RightPanel
-        templates={templates}
-        onTemplateSelect={handleTemplateSelect}
-      />
-
-      {showPreview && (
-        <PreviewModal
-          isOpen={showPreview}
-          onClose={() => setShowPreview(false)}
-          generatedCode={generatedCode}
-          projectType={messages[messages.length - 2]?.content || 'Web3 App'}
+      {!showPreview && (
+        <RightPanel
+          templates={templates}
+          onTemplateSelect={handleTemplateSelect}
         />
       )}
 

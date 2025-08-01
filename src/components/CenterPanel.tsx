@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Zap, Code, User, Bot, Copy, ExternalLink, Wallet, FileText, Coins } from 'lucide-react';
+import { Send, Zap, User, Bot, Copy, ExternalLink, Wallet } from 'lucide-react';
 import { AgentType, ChatMessage } from './Framew0rkApp';
 import { Button } from '@/components/ui/button';
 import { TopUpModal } from './TopUpModal';
@@ -32,13 +32,13 @@ export const CenterPanel = ({
   const getAgentIcon = () => {
     switch (selectedAgent) {
       case 'dev':
-        return { Icon: Code, color: 'text-primary' };
+        return { emoji: '🤖', color: 'text-primary' };
       case 'whitepaper':
-        return { Icon: FileText, color: 'text-blue-400' };
+        return { emoji: '📄', color: 'text-blue-400' };
       case 'tokenomics':
-        return { Icon: Coins, color: 'text-yellow-400' };
+        return { emoji: '💰', color: 'text-yellow-400' };
       default:
-        return { Icon: Code, color: 'text-primary' };
+        return { emoji: '🤖', color: 'text-primary' };
     }
   };
 
@@ -55,7 +55,7 @@ export const CenterPanel = ({
     }
   };
 
-  const { Icon: AgentIcon, color: agentColor } = getAgentIcon();
+  const { emoji: agentEmoji, color: agentColor } = getAgentIcon();
   const gradientClass = getAgentGradient();
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export const CenterPanel = ({
             <p className="text-muted-foreground mb-6">
               Describe your Web3 project or choose a template to get started
             </p>
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+            <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto">
               <button 
                 className="p-3 rounded-lg border border-border glow-border text-left"
                 onClick={() => onSendMessage('Build a DeFi staking platform')}
@@ -157,6 +157,13 @@ export const CenterPanel = ({
               >
                 <div className="text-sm font-medium">🖼️ NFT Marketplace</div>
                 <div className="text-xs text-muted-foreground">Buy, sell, trade</div>
+              </button>
+              <button 
+                className="p-3 rounded-lg border border-border glow-border text-left"
+                onClick={() => onSendMessage('Build a prediction market for GTA 6 launch date')}
+              >
+                <div className="text-sm font-medium">🎮 Prediction Market</div>
+                <div className="text-xs text-muted-foreground">GTA 6 launch betting</div>
               </button>
             </div>
           </div>
@@ -181,7 +188,7 @@ export const CenterPanel = ({
                 {message.isCode && message.isGenerating ? (
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <Code size={16} className="text-primary" />
+                      <span className="text-lg">💻</span>
                       <span className="text-sm font-medium">Generating code...</span>
                     </div>
                     <div className="space-y-2">
@@ -230,7 +237,7 @@ export const CenterPanel = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                    <Code size={18} className="text-white" />
+                    <span className="text-2xl">💻</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Code Generated Successfully!</h4>
@@ -262,7 +269,7 @@ export const CenterPanel = ({
           <form onSubmit={handleSubmit} className="relative bg-card rounded-xl border-2 border-transparent overflow-hidden">
             <div className="flex items-center space-x-4 p-4">
               <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-background border border-current shadow-lg`}>
-                <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
+                <span className="text-xl animate-pulse">{agentEmoji}</span>
               </div>
               <div className="flex-1 relative">
                 <input
