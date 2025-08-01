@@ -273,7 +273,7 @@ contract MemecoinLauncher is ERC20, Ownable {
         
         <button
           onClick={() => navigate('/bonding-curve')}
-          className="flex items-center space-x-2 bg-gradient-primary text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          className="flex items-center space-x-2 bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary/90 hover:to-primary/70 transition-all duration-200 shadow-lg border border-primary/20 glow-border"
         >
           <Rocket size={18} />
           <span>Launch your token and raise funds</span>
