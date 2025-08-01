@@ -252,36 +252,39 @@ export const CenterPanel = ({
       </div>
 
       {/* Input */}
-      <div className="border-t border-border p-6 relative">
-        {/* Animated gradient border */}
-        <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass} rounded-t-none opacity-50 blur-sm animate-pulse`}></div>
-        <div className={`absolute inset-[1px] bg-gradient-to-r ${gradientClass} rounded-t-none opacity-30 animate-pulse`} style={{animationDelay: '0.5s'}}></div>
-        <div className="relative z-10">
-          <form onSubmit={handleSubmit} className="flex items-center space-x-4">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-card border-2 border-gradient-to-r ${gradientClass.replace(/\/\d+/g, '/80')} shadow-lg`}>
-              <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
+      <div className="border-t border-border p-6">
+        <div className="relative">
+          {/* Animated neon border */}
+          <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradientClass} opacity-75 animate-pulse blur-[1px]`}></div>
+          <div className={`absolute inset-[1px] rounded-xl bg-gradient-to-r ${gradientClass} opacity-50 animate-pulse`} style={{animationDelay: '0.3s'}}></div>
+          
+          <form onSubmit={handleSubmit} className="relative bg-card rounded-xl border border-transparent overflow-hidden">
+            <div className="flex items-center space-x-4 p-4">
+              <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-background border border-current shadow-lg`}>
+                <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
+              </div>
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder={`Ask ${agentInfo.name} to help build your Web3 project...`}
+                  className="w-full p-3 bg-transparent border-none outline-none placeholder-muted-foreground text-foreground"
+                  disabled={isGenerating}
+                />
+              </div>
+              <Button
+                type="submit"
+                disabled={!inputValue.trim() || isGenerating}
+                className="px-6 gradient-primary font-semibold"
+              >
+                {isGenerating ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <Send size={18} />
+                )}
+              </Button>
             </div>
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder={`Ask ${agentInfo.name} to help build your Web3 project...`}
-                className={`w-full p-4 bg-input border-2 border-transparent bg-gradient-to-r ${gradientClass.replace(/\/\d+/g, '/20')} rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-lg`}
-                disabled={isGenerating}
-              />
-            </div>
-            <Button
-              type="submit"
-              disabled={!inputValue.trim() || isGenerating}
-              className={`px-6 bg-gradient-to-r ${gradientClass.replace(/\/\d+/g, '')} font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
-            >
-              {isGenerating ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Send size={18} />
-              )}
-            </Button>
           </form>
         </div>
       </div>
