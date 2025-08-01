@@ -255,8 +255,9 @@ export const CenterPanel = ({
       <div className="border-t border-border p-6">
         <div className="relative">
           {/* Animated neon border */}
-          <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradientClass} opacity-75 animate-pulse blur-[2px]`}></div>
-          <div className={`absolute inset-[2px] rounded-xl bg-gradient-to-r ${gradientClass} opacity-50 animate-pulse blur-[1px]`} style={{animationDelay: '0.3s'}}></div>
+          <div className={`absolute -inset-1 rounded-xl bg-gradient-to-r ${gradientClass} opacity-75 animate-pulse blur-[3px]`}></div>
+          <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradientClass} opacity-60 animate-pulse blur-[2px]`} style={{animationDelay: '0.3s'}}></div>
+          <div className={`absolute inset-[1px] rounded-xl bg-gradient-to-r ${gradientClass} opacity-40 animate-pulse blur-[1px]`} style={{animationDelay: '0.6s'}}></div>
           
           <form onSubmit={handleSubmit} className="relative bg-card rounded-xl border-2 border-transparent overflow-hidden">
             <div className="flex items-center space-x-4 p-4">
