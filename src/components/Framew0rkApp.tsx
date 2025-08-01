@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { Code, FileText, Coins, MessageCircle, Users, Clock, Settings, Rocket } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { LeftPanel } from './LeftPanel';
 import { CenterPanel } from './CenterPanel';
 import { RightPanel } from './RightPanel';
@@ -32,6 +34,7 @@ export type ChatHistory = {
 };
 
 export const Framew0rkApp = () => {
+  const navigate = useNavigate();
   const [selectedAgent, setSelectedAgent] = useState<AgentType>('dev');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -256,7 +259,29 @@ contract MemecoinLauncher is ERC20, Ownable {
   };
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      {/* Top Navigation Bar */}
+      <div className="h-16 border-b border-border panel-bg px-6 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">F</span>
+            </div>
+            <span className="text-xl font-bold">framew0rk</span>
+          </div>
+        </div>
+        
+        <button
+          onClick={() => navigate('/bonding-curve')}
+          className="flex items-center space-x-2 bg-gradient-primary text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+        >
+          <Rocket size={18} />
+          <span>Launch your token and raise funds</span>
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex overflow-hidden">
       <LeftPanel
         selectedAgent={selectedAgent}
         onAgentSelect={setSelectedAgent}
@@ -295,6 +320,7 @@ contract MemecoinLauncher is ERC20, Ownable {
           generatedCode={generatedCode}
         />
       )}
+      </div>
     </div>
   );
 };
