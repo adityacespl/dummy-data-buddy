@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Zap, Code, User, Bot, Copy, ExternalLink } from 'lucide-react';
+import { Send, Zap, Code, User, Bot, Copy, ExternalLink, Wallet } from 'lucide-react';
 import { AgentType, ChatMessage } from './Framew0rkApp';
 import { Button } from '@/components/ui/button';
 import { TopUpModal } from './TopUpModal';
@@ -82,14 +82,26 @@ export const CenterPanel = ({
               </div>
             </div>
           </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="glow-border"
-            onClick={() => setShowTopUpModal(true)}
-          >
-            Top Up
-          </Button>
+          <div className="flex items-center space-x-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="glow-border"
+              onClick={() => setShowTopUpModal(true)}
+            >
+              Top Up
+            </Button>
+            <div className="w-px h-6 bg-border"></div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="glow-border flex items-center space-x-2"
+              onClick={() => {/* TODO: Connect wallet logic */}}
+            >
+              <Wallet size={16} />
+              <span>Connect Wallet</span>
+            </Button>
+          </div>
         </div>
       </div>
 
