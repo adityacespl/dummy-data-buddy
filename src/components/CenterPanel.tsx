@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Zap, Code, User, Bot, Copy, ExternalLink, Wallet } from 'lucide-react';
+import { Send, Zap, Code, User, Bot, Copy, ExternalLink, Wallet, FileText, Coins } from 'lucide-react';
 import { AgentType, ChatMessage } from './Framew0rkApp';
 import { Button } from '@/components/ui/button';
 import { TopUpModal } from './TopUpModal';
@@ -28,6 +28,21 @@ export const CenterPanel = ({
   const [inputValue, setInputValue] = useState('');
   const [showTopUpModal, setShowTopUpModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const getAgentIcon = () => {
+    switch (selectedAgent) {
+      case 'dev':
+        return { Icon: Code, color: 'text-primary' };
+      case 'whitepaper':
+        return { Icon: FileText, color: 'text-blue-400' };
+      case 'tokenomics':
+        return { Icon: Coins, color: 'text-yellow-400' };
+      default:
+        return { Icon: Code, color: 'text-primary' };
+    }
+  };
+
+  const { Icon: AgentIcon, color: agentColor } = getAgentIcon();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -224,7 +239,10 @@ export const CenterPanel = ({
 
       {/* Input */}
       <div className="border-t border-border p-6">
-        <form onSubmit={handleSubmit} className="flex space-x-3">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-4">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-card border border-border">
+            <AgentIcon size={20} className={`${agentColor} animate-pulse`} />
+          </div>
           <div className="flex-1 relative">
             <input
               type="text"
