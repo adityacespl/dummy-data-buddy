@@ -50,12 +50,11 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
       {/* Logo */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-            <div className="w-6 h-6 bg-white rounded-full relative">
-              <div className="absolute inset-1 bg-primary rounded-full"></div>
-              <div className="absolute top-1 left-1 w-2 h-3 bg-white rounded-full"></div>
-            </div>
-          </div>
+          <img 
+            src="/lovable-uploads/05438ebc-12c5-4750-bd93-a7ca3b298a09.png" 
+            alt="framew0rk logo" 
+            className="w-10 h-10 object-contain"
+          />
           <div>
             <h1 className="text-xl font-bold text-glow">framew0rk</h1>
             <p className="text-xs text-muted-foreground">AI Web3 Platform</p>
