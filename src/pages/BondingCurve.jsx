@@ -48,7 +48,7 @@ export const BondingCurve = () => {
     volume24h: 28500
   });
 
-  const calculateReturns = (amount: number) => {
+  const calculateReturns = (amount) => {
     const currentPrice = selectedToken.currentPrice;
     const tokensReceived = amount / currentPrice;
     const newSupply = selectedToken.currentSupply + tokensReceived;
@@ -213,7 +213,7 @@ export const BondingCurve = () => {
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px'
                       }}
-                      formatter={(value: any, name: string) => [
+                      formatter={(value, name) => [
                         name === 'price' ? `$${value.toFixed(4)}` : `$${value.toLocaleString()}`,
                         name === 'price' ? 'Price' : 'Market Cap'
                       ]}

@@ -1,19 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Zap, User, Bot, Copy, ExternalLink, Wallet } from 'lucide-react';
-import { AgentType, ChatMessage } from './Framew0rkApp';
 import { Button } from '@/components/ui/button';
 import { TopUpModal } from './TopUpModal';
-
-interface CenterPanelProps {
-  selectedAgent: AgentType;
-  messages: ChatMessage[];
-  isGenerating: boolean;
-  seiBalance: number;
-  onSendMessage: (message: string) => void;
-  onShowDeploy: () => void;
-  hasGeneratedCode: boolean;
-  onTopUp: (amount: number) => void;
-}
 
 export const CenterPanel = ({
   selectedAgent,
@@ -24,10 +12,10 @@ export const CenterPanel = ({
   onShowDeploy,
   hasGeneratedCode,
   onTopUp
-}: CenterPanelProps) => {
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [showTopUpModal, setShowTopUpModal] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   const getAgentIcon = () => {
     switch (selectedAgent) {
@@ -62,7 +50,7 @@ export const CenterPanel = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim() && !isGenerating) {
       onSendMessage(inputValue.trim());
@@ -70,7 +58,7 @@ export const CenterPanel = ({
     }
   };
 
-  const getAgentInfo = (agent: AgentType) => {
+  const getAgentInfo = (agent) => {
     const agentMap = {
       dev: { name: 'Dev Agent', color: 'text-primary', emoji: '🤖' },
       whitepaper: { name: 'Whitepaper Agent', color: 'text-blue-400', emoji: '📄' },
@@ -82,7 +70,7 @@ export const CenterPanel = ({
   const agentInfo = getAgentInfo(selectedAgent);
   const progressPercentage = Math.min((seiBalance / 1000) * 100, 100);
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
   };
 

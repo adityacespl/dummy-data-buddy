@@ -3,13 +3,6 @@ import { X, Zap, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
-interface TopUpModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onTopUp: (amount: number) => void;
-  currentBalance: number;
-}
-
 const topUpOptions = [
   { amount: 10, label: 'Build a memecoin dapp', icon: '🚀' },
   { amount: 30, label: 'Build a DEX', icon: '🔄' },
@@ -17,12 +10,12 @@ const topUpOptions = [
   { amount: 100, label: 'Enterprise solution', icon: '🏢' }
 ];
 
-export const TopUpModal = ({ isOpen, onClose, onTopUp, currentBalance }: TopUpModalProps) => {
+export const TopUpModal = ({ isOpen, onClose, onTopUp, currentBalance }) => {
   const [selectedAmount, setSelectedAmount] = useState(10);
 
   if (!isOpen) return null;
 
-  const handleSliderChange = (value: number[]) => {
+  const handleSliderChange = (value) => {
     const amount = value[0];
     // Find the closest predefined amount
     const closest = topUpOptions.reduce((prev, curr) => 

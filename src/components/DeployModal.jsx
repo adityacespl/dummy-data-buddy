@@ -2,14 +2,8 @@ import { useState } from 'react';
 import { X, CheckCircle, Zap, PieChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-interface DeployModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  generatedCode: string;
-}
-
-export const DeployModal = ({ isOpen, onClose, generatedCode }: DeployModalProps) => {
-  const [currentStep, setCurrentStep] = useState<'review' | 'tokenomics' | 'deploy' | 'success'>('review');
+export const DeployModal = ({ isOpen, onClose, generatedCode }) => {
+  const [currentStep, setCurrentStep] = useState('review');
   const [isDeploying, setIsDeploying] = useState(false);
 
   if (!isOpen) return null;

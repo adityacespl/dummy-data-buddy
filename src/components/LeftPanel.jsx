@@ -1,33 +1,26 @@
 import { Settings, User, Rocket } from 'lucide-react';
-import { AgentType, ChatHistory } from './Framew0rkApp';
 import { useNavigate } from 'react-router-dom';
 
-interface LeftPanelProps {
-  selectedAgent: AgentType;
-  onAgentSelect: (agent: AgentType) => void;
-  chatHistories: ChatHistory[];
-}
-
-export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftPanelProps) => {
+export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
   const navigate = useNavigate();
   
   const agents = [
     {
-      id: 'dev' as AgentType,
+      id: 'dev',
       name: 'Dev Agent',
       description: 'AI-Guided App Development',
       emoji: '🤖',
       color: 'text-primary'
     },
     {
-      id: 'whitepaper' as AgentType,
+      id: 'whitepaper',
       name: 'Whitepaper Agent',
       description: 'Professional Documentation',
       emoji: '📄',
       color: 'text-blue-400'
     },
     {
-      id: 'tokenomics' as AgentType,
+      id: 'tokenomics',
       name: 'Tokenomics Agent',
       description: 'Token Economics Design',
       emoji: '💰',
@@ -35,7 +28,7 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }: LeftP
     }
   ];
 
-  const formatTimeAgo = (date: Date) => {
+  const formatTimeAgo = (date) => {
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
     

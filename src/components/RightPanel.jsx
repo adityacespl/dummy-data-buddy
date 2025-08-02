@@ -1,15 +1,9 @@
 import { Search, Filter } from 'lucide-react';
-import { Template } from './Framew0rkApp';
 import { useState } from 'react';
 
-interface RightPanelProps {
-  templates: Template[];
-  onTemplateSelect: (template: Template) => void;
-}
-
-export const RightPanel = ({ templates, onTemplateSelect }: RightPanelProps) => {
+export const RightPanel = ({ templates, onTemplateSelect }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const categories = ['All', ...Array.from(new Set(templates.map(t => t.category)))];
   

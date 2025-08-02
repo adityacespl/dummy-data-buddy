@@ -6,42 +6,16 @@ import { RightPanel } from './RightPanel';
 import { PreviewPanel } from './PreviewPanel';
 import { DeployModal } from './DeployModal';
 
-export type AgentType = 'dev' | 'whitepaper' | 'tokenomics';
-export type Template = {
-  id: string;
-  name: string;
-  emoji: string;
-  description: string;
-  category: string;
-};
-
-export type ChatMessage = {
-  id: string;
-  type: 'user' | 'ai';
-  content: string;
-  timestamp: Date;
-  isCode?: boolean;
-  isGenerating?: boolean;
-};
-
-export type ChatHistory = {
-  id: string;
-  title: string;
-  agent: AgentType;
-  timestamp: Date;
-  preview?: string;
-};
-
 export const Framew0rkApp = () => {
   const navigate = useNavigate();
-  const [selectedAgent, setSelectedAgent] = useState<AgentType>('dev');
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [selectedAgent, setSelectedAgent] = useState('dev');
+  const [messages, setMessages] = useState([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [showDeploy, setShowDeploy] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState<string>('');
+  const [generatedCode, setGeneratedCode] = useState('');
   const [seiBalance, setSeiBalance] = useState(847);
-  const [chatHistories] = useState<ChatHistory[]>([
+  const [chatHistories] = useState([
     {
       id: '1',
       title: 'DeFi Yield Farm',
@@ -65,7 +39,7 @@ export const Framew0rkApp = () => {
     }
   ]);
 
-  const templates: Template[] = [
+  const templates = [
     {
       id: 'memecoin',
       name: 'Memecoin Launcher',
@@ -110,8 +84,8 @@ export const Framew0rkApp = () => {
     }
   ];
 
-  const handleSendMessage = async (content: string) => {
-    const userMessage: ChatMessage = {
+  const handleSendMessage = async (content) => {
+    const userMessage = {
       id: Date.now().toString(),
       type: 'user',
       content,
@@ -123,7 +97,7 @@ export const Framew0rkApp = () => {
 
     // Simulate AI response with typing effect
     setTimeout(() => {
-      const aiMessage: ChatMessage = {
+      const aiMessage = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
         content: generateAIResponse(content, selectedAgent),
@@ -163,16 +137,16 @@ export const Framew0rkApp = () => {
     }, 1000);
   };
 
-  const handleTemplateSelect = (template: Template) => {
+  const handleTemplateSelect = (template) => {
     const message = `Build a ${template.name} - ${template.description}`;
     handleSendMessage(message);
   };
 
-  const handleTopUp = (amount: number) => {
+  const handleTopUp = (amount) => {
     setSeiBalance(prev => prev + amount);
   };
 
-  const generateAIResponse = (userInput: string, agent: AgentType): string => {
+  const generateAIResponse = (userInput, agent) => {
     const responses = {
       dev: [
         "I'll help you build that! Let me generate the smart contract and frontend code for your project.",
@@ -194,7 +168,7 @@ export const Framew0rkApp = () => {
     return responses[agent][Math.floor(Math.random() * responses[agent].length)];
   };
 
-  const generateMockCode = (userInput: string): string => {
+  const generateMockCode = (userInput) => {
     if (userInput.toLowerCase().includes('prediction') || userInput.toLowerCase().includes('gta')) {
       return `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;

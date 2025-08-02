@@ -2,16 +2,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Copy, ExternalLink } from 'lucide-react';
 
-interface PreviewPanelProps {
-  isVisible: boolean;
-  projectType: string;
-  generatedCode: string;
-  onDeploy: () => void;
-  onClose: () => void;
-}
-
-export const PreviewPanel = ({ isVisible, projectType, generatedCode, onDeploy, onClose }: PreviewPanelProps) => {
-  const [activeTab, setActiveTab] = useState<'preview' | 'code' | 'deploy'>('preview');
+export const PreviewPanel = ({ isVisible, projectType, generatedCode, onDeploy, onClose }) => {
+  const [activeTab, setActiveTab] = useState('preview');
 
   const tabs = [
     { id: 'preview', name: 'App Preview', emoji: '📱' },
@@ -19,7 +11,7 @@ export const PreviewPanel = ({ isVisible, projectType, generatedCode, onDeploy, 
     { id: 'deploy', name: 'Deploy', emoji: '🚀' }
   ];
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
   };
 
@@ -239,7 +231,7 @@ export const PreviewPanel = ({ isVisible, projectType, generatedCode, onDeploy, 
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab.id
                   ? 'text-primary border-b-2 border-primary'
