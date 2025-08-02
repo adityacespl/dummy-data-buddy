@@ -1,8 +1,10 @@
 import { Settings, User, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const agents = [
     {
@@ -46,7 +48,7 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
           <img 
             src="/lovable-uploads/05438ebc-12c5-4750-bd93-a7ca3b298a09.png" 
             alt="framew0rk logo" 
-            className="h-16 w-auto object-contain"
+            className="h-8 w-auto object-contain"
           />
         </div>
       </div>
@@ -136,14 +138,17 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
       {/* Account Section */}
       <div className="p-6 border-t border-border">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
-            <span className="text-xl">👤</span>
+          <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+            {user?.name?.charAt(0)?.toUpperCase() || '👤'}
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">Developer</p>
-            <p className="text-xs text-muted-foreground">Free Tier</p>
+            <p className="font-medium text-sm">{user?.name || 'Developer'}</p>
+            <p className="text-xs text-muted-foreground">{user?.tier || 'Free'} Tier</p>
           </div>
-          <button className="p-2 hover:bg-accent rounded-lg transition-colors">
+          <button 
+            className="p-2 hover:bg-accent rounded-lg transition-colors"
+            onClick={() => navigate('/profile')}
+          >
             <span className="text-lg">⚙️</span>
           </button>
         </div>

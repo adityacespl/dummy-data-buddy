@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Zap, User, Bot, Copy, ExternalLink, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TopUpModal } from './TopUpModal';
+import { useAuth } from '../contexts/AuthContext';
 
 export const CenterPanel = ({
   selectedAgent,
@@ -15,6 +16,7 @@ export const CenterPanel = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [showTopUpModal, setShowTopUpModal] = useState(false);
+  const { user } = useAuth();
   const messagesEndRef = useRef(null);
 
   const getAgentIcon = () => {
@@ -90,11 +92,11 @@ export const CenterPanel = ({
           <div className="flex items-center space-x-2">
             <Zap size={16} className="text-primary" />
             <div className="text-right">
-              <p className="text-sm font-semibold">{seiBalance} SEI</p>
+              <p className="text-sm font-semibold">{user?.seiBalance || seiBalance} SEI</p>
               <div className="w-24 h-1.5 bg-muted rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-gradient-primary transition-all duration-300"
-                  style={{ width: `${progressPercentage}%` }}
+                  style={{ width: `${Math.min(((user?.seiBalance || seiBalance) / 1000) * 100, 100)}%` }}
                 />
               </div>
             </div>
@@ -289,7 +291,7 @@ export const CenterPanel = ({
         isOpen={showTopUpModal}
         onClose={() => setShowTopUpModal(false)}
         onTopUp={onTopUp}
-        currentBalance={seiBalance}
+        currentBalance={user?.seiBalance || seiBalance}
       />
     </div>
   );
