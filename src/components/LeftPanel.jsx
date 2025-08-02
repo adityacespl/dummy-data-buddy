@@ -41,41 +41,41 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
   };
 
   return (
-    <div className="w-80 panel-bg border-r border-border flex flex-col">
+    <div className="w-64 panel-bg border-r border-border flex flex-col">
       {/* Logo */}
-      <div className="p-6 border-b border-border">
+      <div className="p-4 border-b border-border">
         <div className="flex justify-center">
           <img 
             src="/lovable-uploads/05438ebc-12c5-4750-bd93-a7ca3b298a09.png" 
             alt="framew0rk logo" 
-            className="h-8 w-auto object-contain"
+            className="h-6 w-auto object-contain"
           />
         </div>
       </div>
 
       {/* AI Agents */}
-      <div className="p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-          AI Agents
+      <div className="p-4 space-y-3">
+        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          AI AGENTS
         </h2>
         {agents.map((agent) => {
           return (
             <button
               key={agent.id}
               onClick={() => onAgentSelect(agent.id)}
-              className={`w-full p-4 rounded-xl border transition-all duration-300 text-left group ${
+              className={`w-full p-3 rounded-lg border transition-all duration-300 text-left group ${
                 selectedAgent === agent.id
                   ? 'border-primary bg-primary/10 shadow-glow'
                   : 'border-border glow-border'
               }`}
             >
-              <div className="flex items-start space-x-3">
-                <div className={`p-2 rounded-lg bg-card flex items-center justify-center`}>
-                  <span className="text-2xl">{agent.emoji}</span>
+              <div className="flex items-center space-x-3">
+                <div className={`w-8 h-8 rounded-lg bg-card flex items-center justify-center`}>
+                  <span className="text-lg">{agent.emoji}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm">{agent.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                  <h3 className="font-medium text-sm">{agent.name}</h3>
+                  <p className="text-xs text-muted-foreground leading-tight">
                     {agent.description}
                   </p>
                 </div>
@@ -86,21 +86,21 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
       </div>
 
       {/* Token Launch */}
-      <div className="px-6 pb-4">
-        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-          Token Launch
+      <div className="px-4 pb-3">
+        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+          TOKEN LAUNCH
         </h2>
         <button
           onClick={() => navigate('/bonding-curve')}
-          className="w-full p-4 rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 text-left group glow-border"
+          className="w-full p-3 rounded-lg border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 text-left group glow-border"
         >
-          <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-lg bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-              <span className="text-2xl">🚀</span>
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span className="text-lg">🚀</span>
             </div>
             <div>
-              <h3 className="font-semibold text-sm text-primary">Bonding Curve</h3>
-              <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+              <h3 className="font-medium text-sm text-primary">Bonding Curve</h3>
+              <p className="text-xs text-muted-foreground leading-tight">
                 Launch your token and raise funds
               </p>
             </div>
@@ -109,24 +109,24 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
       </div>
 
       {/* Chat History */}
-      <div className="flex-1 p-6 overflow-hidden">
-        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-          Recent Chats
+      <div className="flex-1 p-4 overflow-hidden">
+        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+          RECENT CHATS
         </h2>
-        <div className="space-y-3 overflow-y-auto max-h-96">
+        <div className="space-y-2 overflow-y-auto max-h-64">
           {chatHistories.map((chat) => (
             <button
               key={chat.id}
-              className="w-full p-3 rounded-lg border border-border hover:border-primary/50 transition-all duration-200 text-left group"
+              className="w-full p-2 rounded-md border border-border hover:border-primary/50 transition-all duration-200 text-left group"
             >
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-medium text-sm truncate">{chat.title}</h4>
+              <div className="flex items-center justify-between mb-1">
+                <h4 className="font-medium text-xs truncate">{chat.title}</h4>
                 <span className="text-xs text-muted-foreground">
                   {formatTimeAgo(chat.timestamp)}
                 </span>
               </div>
               {chat.preview && (
-                <p className="text-xs text-muted-foreground line-clamp-2">
+                <p className="text-xs text-muted-foreground line-clamp-1">
                   {chat.preview}
                 </p>
               )}
@@ -136,20 +136,20 @@ export const LeftPanel = ({ selectedAgent, onAgentSelect, chatHistories }) => {
       </div>
 
       {/* Account Section */}
-      <div className="p-6 border-t border-border">
+      <div className="p-4 border-t border-border">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
             {user?.name?.charAt(0)?.toUpperCase() || '👤'}
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">{user?.name || 'Developer'}</p>
+            <p className="font-medium text-xs">{user?.name || 'Developer'}</p>
             <p className="text-xs text-muted-foreground">{user?.tier || 'Free'} Tier</p>
           </div>
           <button 
-            className="p-2 hover:bg-accent rounded-lg transition-colors"
+            className="p-1 hover:bg-accent rounded-md transition-colors"
             onClick={() => navigate('/profile')}
           >
-            <span className="text-lg">⚙️</span>
+            <span className="text-sm">⚙️</span>
           </button>
         </div>
       </div>
